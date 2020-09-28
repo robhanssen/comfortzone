@@ -12,7 +12,7 @@ source("config.r")
 
 
 # need to replace this later with automated import
-datafile <- "sources/AlexRoom.csv"
+datafile <- "sources/NovasRoom.csv"
 comfort <- read_csv(datafile, 
                     col_types = cols(`Timestamp for sample frequency every 15 min` = col_datetime(format = "%Y-%m-%d %H:%M:%S"))
                     )
@@ -52,8 +52,8 @@ comfort %>% ggplot() + aes(tempF,moisturecontent) + geom_point(alpha=.5) +
                 annotate("text", x = 73, y = 18, label = "100%") +
                 annotate("text", x = 75, y = 1, label = "Comfort Zone") 
 
-ggsave("graphs/AlexRoom.pdf")
-write_csv(comfort, "data/AlexRoom.csv")
+ggsave("graphs/NovasRoom.pdf")
+write_csv(comfort, "data/NovasRoom.csv")
 
 
 
