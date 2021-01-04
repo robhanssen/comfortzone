@@ -12,7 +12,7 @@ source("config.r")
 
 
 # need to replace this later with automated import
-dataname = "Lab42"
+dataname = "Lab42_2020"
 
 datafile <- paste0("sources/", dataname, ".csv")
 comfort <- read_csv(datafile, 
