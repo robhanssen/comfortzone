@@ -12,11 +12,11 @@ source("config.r")
 
 
 # need to replace this later with automated import
-dataname = "Lab42_2020"
+dataname = "lab42-2020"
 
 datafile <- paste0("sources/", dataname, ".csv")
-comfort <- read_csv(datafile, 
-                    col_types = cols(`Timestamp for sample frequency every 15 min` = col_datetime(format = "%Y-%m-%d %H:%M:%S"))
+comfort <- read_csv(datafile#, 
+                    #col_types = cols(`Timestamp for sample frequency every 15 min` = col_datetime(format = "%Y-%m-%d %H:%M:%S"))
                     )
 colnames(comfort) = c("datetime","tempF", "humidity")
 
@@ -30,13 +30,18 @@ comfort %>% mutate(
             year = year(datetime),
             month = month(datetime),
             day = day(datetime),
+            dayofweek = wday(datetime),
             hour = hour(datetime),
             minute = minute(datetime),
             moisturecontent = humidcontent(tempC, humidity) * 1000
                     ) -> comfort
 
 
-comfort %>%     ggplot() + aes(tempF,moisturecontent) + geom_point(alpha=.5) + 
+daytime = 8:16
+workweek = 2:6
+
+comfort %>%     filter(hour %in% daytime & dayofweek %in% workweek ) %>% 
+                ggplot() + aes(tempF,moisturecontent) + geom_point(alpha=.5) + 
                 xlab(tempFlabel) + ylab("Moisture content (mg water/kg air)") +
                 scale_x_continuous(limits=c(60,90), sec.axis=sec_axis(name=tempClabel,~ 5/9*(. -32))) + 
                 scale_y_continuous(limits=c(0,20)) + 
